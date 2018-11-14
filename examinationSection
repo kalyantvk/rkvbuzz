@@ -133,54 +133,11 @@ public class ExaminationSection extends AppCompatActivity {
             //Examination ex=new Examination(PublicLink,LocalLink,Header,Desc,thisDate);
 
             if(pdfUri!=null) {
-                //uploadFile();
-                progressDialog=new ProgressDialog(ExaminationSection.this);
-                progressDialog.setProgress(ProgressDialog.STYLE_HORIZONTAL);
-                progressDialog.setTitle("Uploading...");
-                progressDialog.setProgress(0);
-                progressDialog.show();
-                StorageReference storageReference=storage.getReference();
-
-                storageReference.child("ExaminationUploads").child(editText.getText().toString()).putFile(pdfUri)
-                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                String ur=taskSnapshot.getDownloadUrl().toString();
-
-
-                                //ex.setUrl(url);
-                                hide.setText(ur);
-                                //Toast.makeText(ExaminationSection.this,,Toast.LENGTH_SHORT).show();
-                                //upExam=new uploadExamination(ur);
-
-                                //mDatabase=fd.getReference("Upload");
-                                //mDatabase.child(id).setValue(url);
-
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-
-                        currentProgress=(int) (100*taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
-                        progressDialog.setProgress(currentProgress);
-
-                    }
-                });
-                //Toast.makeText(ExaminationSection.this,url,Toast.LENGTH_LONG).show();
+                uploadFile();
+                
             }
 
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                }
-            }, 5000);
+            
             ex=new Examination(PublicLink,LocalLink,Header,Desc,thisDate,hide.getText().toString());
 
             mDatabase.child(id).setValue(ex);
@@ -196,7 +153,7 @@ public class ExaminationSection extends AppCompatActivity {
         }
     }
 
-    /*private void uploadFile() {
+    private void uploadFile() {
         String filename=editText.getText().toString();
         StorageReference storageReference=storage.getReference();
 
@@ -228,7 +185,7 @@ public class ExaminationSection extends AppCompatActivity {
             }
         });
 
-    }*/
+    }
 
 
 }
